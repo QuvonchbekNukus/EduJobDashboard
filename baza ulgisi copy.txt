@@ -1,0 +1,118 @@
+users{
+    id,
+    name(nullable),
+    lastname(nullable),
+    telegram_id(unique,BIGINT),
+    username(unique,nullable),
+    phone(nullable),
+    role_id,
+}
+role{
+    id,
+    name(DEFAULT:user),
+    description(nullable)
+}
+regions{
+    id,
+    name(nullable),
+    slug(nullable),
+    is_active,
+}
+channels{
+    id,
+    name(nullable),
+    username(nullable),
+    tg_chat_id(unique),
+    region_id(unique,index),
+    type(nullable,ENUM:CHANNEL,GROUP),
+    is_active
+}
+categories{
+    id,
+    name,
+    slug,
+    is_active
+}
+vacancies{
+    id,
+    region_id(index),
+    category_id(index),
+    employer_id(index),
+    title,
+    city(nullable),
+    district(nullable),
+    salary_from(nullable),
+    salary_to(nullable),
+    schedule(varchar,nullable),
+    work_format(online,offline,gibrid),
+    requirements(Text,nullable),
+    contact_phone(nullable),
+    contact_username(link bo`lishi mumkin,nullable),
+    status(index,nullable,pending (admin tekshiradi),published (kanalga chiqdi),rejected (rad),archived (eski/yopildi)),
+    published_at(date,nullable,index)
+    benefits(imkoniyatlar,nullable)
+}
+seekers(ish qidiruvchi){
+    id,
+    user_id(unique),
+    region_id(ish qidirayotgan viloyati),
+    experience,
+    salary_min,
+    work_format(online,offline,gibrid),
+    about_me(text),
+    cv_file_path(cv yuklansa o'sha fayl yo`li),
+}
+employer{
+    id,
+    user_id(unique)
+    org_name,
+    org_type(learning_center,school,kindergarden),
+    region_id,
+    city,
+    district,
+    adress,
+    org_contact,
+    is_verified
+    
+}
+applications{
+    id,
+    vacancy_id,
+    seeker_id,
+    status(cv yuborilsa sended bo`ladi(viewed,accepted,rejected),nullable),
+}
+vacancy_posts{
+    id
+    vacancy_id FK UNIQUE
+    tg_chat_id
+    tg_message_id
+    posted_at
+}
+--------------------------------MONETIZATCIYA--------------------------------------------------------
+plans{
+    id,
+    name (Basic, VIP, Monthly),
+    type(ENUM:'per_post','vip','subscription'),
+    price(INT),
+    duration_days(INT,nullable)
+    is_active,
+}
+payments{
+    id,
+    user_id,
+    vacancy_id FK NULL (per_post bo‘lsa),
+    plan_id,
+    provider ENUM('click','payme','P2P'),
+    amount,
+    status ENUM('pending','paid','failed','canceled'),
+    provider_invoice_id VARCHAR(120) NULL,
+    paid_at DATETIME NULL,
+}
+subscriptions{
+    id,
+    user_id,
+    plan_id,
+    start_at,
+    end_at,
+    is_active
+}
