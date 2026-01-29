@@ -12,31 +12,45 @@ class UserController extends Controller
     public function upsert(Request $request)
     {
         $validated = $request->validate([
-            'email' => ['required', 'email'],
-            'name' => ['required', 'string', 'max:255'],
-            'password' => ['nullable', 'string', 'min:8'],
+            'telegram_id' => ['required', 'integer'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'lastname' => ['nullable', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'role_id' => ['nullable', 'integer'],
         ]);
 
-        $user = User::where('email', $validated['email'])->first();
+        $user = User::where('telegram_id', $validated['telegram_id'])->first();
 
         if ($user) {
-            $update = ['name' => $validated['name']];
-            if (!empty($validated['password'])) {
-                $update['password'] = $validated['password'];
-            }
+            $update = collect($validated)
+                ->except('telegram_id')
+                ->filter(fn ($value) => $value !== null)
+                ->all();
 
             $user->fill($update)->save();
         } else {
             $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => $validated['password'] ?? Str::random(32),
+                'telegram_id' => $validated['telegram_id'],
+                'name' => $validated['name'] ?? null,
+                'lastname' => $validated['lastname'] ?? null,
+                'username' => $validated['username'] ?? null,
+                'phone' => $validated['phone'] ?? null,
+                'role_id' => $validated['role_id'] ?? null,
+                'password' => Str::random(32),
             ]);
         }
 
         return response()->json([
             'status' => 'ok',
             'user' => $user,
+        ]);
+    }
+    public function test(Request $request)
+    {
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Test endpoint is working!',
         ]);
     }
 }

@@ -10,5 +10,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('bot.token')->group(function () {
-    Route::post('/bot/users/upsert', [BotUserController::class, 'upsert']);
+    Route::post('/bot/users/upsert', [BotUserController::class, 'test']);
 });
