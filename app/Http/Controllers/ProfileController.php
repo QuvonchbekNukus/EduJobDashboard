@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+            'roles' => Role::query()->orderBy('name')->get(),
         ]);
     }
 
@@ -26,9 +28,18 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $validated = $request->validated();
+        $user = $request->user();
 
-        $request->user()->save();
+        $user->fill($validated);
+        $user->save();
+
+        if (! empty($validated['role_id'])) {
+            $role = Role::find($validated['role_id']);
+            if ($role) {
+                $user->syncRoles([$role->name]);
+            }
+        }
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'lastname' => fake()->lastName(),
             'telegram_id' => fake()->unique()->numberBetween(100000, 9999999999),
             'phone' => fake()->phoneNumber(),
-            'role_id' => null,
+            'role_id' => 2,
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

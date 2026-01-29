@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -22,7 +21,7 @@ return new class extends Migration
             }
 
             if (! Schema::hasColumn('users', 'telegram_id')) {
-                $table->unsignedBigInteger('telegram_id')->nullable()->unique()->after('lastname');
+                $table->unsignedBigInteger('telegram_id')->unique()->after('lastname');
             }
 
             if (! Schema::hasColumn('users', 'phone')) {
@@ -30,22 +29,9 @@ return new class extends Migration
             }
 
             if (! Schema::hasColumn('users', 'role_id')) {
-                $table->unsignedBigInteger('role_id')->nullable()->index()->after('phone');
+                $table->unsignedBigInteger('role_id')->index()->after('phone');
             }
         });
-
-        if (Schema::hasColumn('users', 'username')) {
-            DB::table('users')
-                ->whereNull('username')
-                ->orderBy('id')
-                ->chunkById(100, function ($users) {
-                    foreach ($users as $user) {
-                        DB::table('users')
-                            ->where('id', $user->id)
-                            ->update(['username' => 'user_'.$user->id]);
-                    }
-                });
-        }
     }
 
     /**

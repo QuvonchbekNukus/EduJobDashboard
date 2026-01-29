@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +20,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $roles = Role::query()->orderBy('name')->get();
+
+        return view('auth.register', compact('roles'));
     }
 
     /**
@@ -30,16 +33,29 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:'.User::class],
+            'name' => ['nullable', 'string', 'max:255'],
+            'lastname' => ['nullable', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:255', 'unique:'.User::class],
+            'telegram_id' => ['required', 'integer', 'unique:'.User::class],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'role_id' => ['required', 'integer', 'exists:roles,id'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'lastname' => $request->lastname,
             'username' => $request->username,
+            'telegram_id' => $request->telegram_id,
+            'phone' => $request->phone,
+            'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
         ]);
+
+        $role = Role::find($request->role_id);
+        if ($role) {
+            $user->assignRole($role);
+        }
 
         event(new Registered($user));
 

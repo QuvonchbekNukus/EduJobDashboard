@@ -38,6 +38,8 @@ vacancies{
     region_id(index),
     category_id(index),
     employer_id(index),
+    seeker_type_id(FK),
+    subject_id(FK),
     title,
     city(nullable),
     district(nullable),
@@ -51,6 +53,18 @@ vacancies{
     status(index,nullable,pending (admin tekshiradi),published (kanalga chiqdi),rejected (rad),archived (eski/yopildi)),
     published_at(date,nullable,index)
     benefits(imkoniyatlar,nullable)
+}
+subjects{
+    id,
+    name,
+    label,
+    is_active
+}
+seekers_type{
+    id,
+    name,
+    label,
+    is_active
 }
 seekers(ish qidiruvchi){
     id,

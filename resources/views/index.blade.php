@@ -253,10 +253,14 @@
                         <small class="text-muted">Ta`lim sohasi vakansiyalari</small>
                     </div>
                 </div>
-                <div class="d-none d-md-flex gap-3">
+                <div class="d-none d-md-flex align-items-center gap-3">
                     <span class="nav-pill">Vakansiyalar</span>
                     <span class="nav-pill">Hamkorlar</span>
                     <span class="nav-pill">Telegram bot</span>
+                    <div class="d-flex gap-2 ms-2">
+                        <a href="{{ route('login') }}" class="btn btn-outline-ink btn-sm px-3">Login</a>
+                        <a href="{{ route('register') }}" class="btn btn-brand btn-sm px-3">Register</a>
+                    </div>
                 </div>
             </nav>
 
