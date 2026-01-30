@@ -27,7 +27,7 @@ channels{
     type(nullable,ENUM:CHANNEL,GROUP),
     is_active
 }
-categories{
+categories(vakancy kategoriyasi,Yo‘nalishlar (Ingliz tili, Matematika, Admin, SMM…)){
     id,
     name,
     slug,
@@ -79,7 +79,7 @@ seekers(ish qidiruvchi){
 employer{
     id,
     user_id(unique)
-    org_name,
+    org_name(O`quv markaz nomi),
     org_type(learning_center,school,kindergarden),
     region_id,
     city,
@@ -87,7 +87,7 @@ employer{
     adress,
     org_contact,
     is_verified
-    
+    is_active
 }
 applications{
     id,

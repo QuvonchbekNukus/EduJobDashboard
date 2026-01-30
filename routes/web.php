@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\RoleController;
@@ -20,6 +22,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('roles', RoleController::class)->except(['show']);
     Route::resource('regions', RegionController::class)->except(['show']);
+    Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::resource('channels', ChannelController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';

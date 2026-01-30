@@ -14,6 +14,7 @@ class RegionSeeder extends Seeder
     {
         $regions = [
             ['name' => 'Andijon', 'slug' => 'andijon'],
+            ['name' => 'Qoraqalpog\'iston Respublikasi', 'slug' => 'qoraqalpogiston-respublikasi'],
             ['name' => 'Buxoro', 'slug' => 'buxoro'],
             ['name' => 'Farg\'ona', 'slug' => 'fargona'],
             ['name' => 'Jizzax', 'slug' => 'jizzax'],

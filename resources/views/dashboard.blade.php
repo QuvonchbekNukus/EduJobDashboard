@@ -272,6 +272,8 @@
                             <a class="edu-nav-link" href="#"><i class="bi bi-gear-fill"></i> Sozlamalar</a>
                             <a class="edu-nav-link" href="{{ route('roles.index') }}"><i class="bi bi-shield-lock-fill"></i> Rollar</a>
                             <a class="edu-nav-link" href="{{ route('regions.index') }}"><i class="bi bi-geo-alt-fill"></i> Regionlar</a>
+                            <a class="edu-nav-link" href="{{ route('categories.index') }}"><i class="bi bi-tags-fill"></i> Kategoriyalar</a>
+                            <a class="edu-nav-link" href="{{ route('channels.index') }}"><i class="bi bi-broadcast"></i> Kanallar</a>
                         </nav>
                         <div class="edu-side-card mt-4">
                             <div class="fw-semibold mb-1">Yangi vakansiya</div>

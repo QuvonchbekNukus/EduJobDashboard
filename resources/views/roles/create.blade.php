@@ -53,6 +53,39 @@
                     @enderror
                 </div>
 
+                <div class="mb-4">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+                        <label class="form-label mb-0">Permissionlar</label>
+                        <span class="text-muted small">Rolega biriktiring</span>
+                    </div>
+                    @error('permissions')
+                        <div class="text-danger small mb-2">{{ $message }}</div>
+                    @enderror
+                    @if ($permissions->isNotEmpty())
+                        <div class="row g-2">
+                            @foreach ($permissions as $permission)
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            value="{{ $permission->name }}"
+                                            id="perm_{{ $permission->id }}"
+                                            name="permissions[]"
+                                            {{ in_array($permission->name, old('permissions', []), true) ? 'checked' : '' }}
+                                        >
+                                        <label class="form-check-label" for="perm_{{ $permission->id }}">
+                                            {{ $permission->name }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-muted">Hozircha permission yo`q.</div>
+                    @endif
+                </div>
+
                 <div class="d-flex flex-wrap gap-2">
                     <button type="submit" class="btn btn-brand">Saqlash</button>
                     <a href="{{ route('roles.index') }}" class="btn btn-outline-ink">Bekor qilish</a>
