@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Region extends Model
+class SeekersType extends Model
 {
     use HasFactory;
 
+    protected $table = 'seekers_types';
+
     protected $fillable = [
         'name',
-        'slug',
+        'label',
         'is_active',
     ];
 
@@ -22,11 +24,6 @@ class Region extends Model
 
     public function seekers(): HasMany
     {
-        return $this->hasMany(Seeker::class);
-    }
-
-    public function employers(): HasMany
-    {
-        return $this->hasMany(Employer::class);
+        return $this->hasMany(Seeker::class, 'seekertype_id');
     }
 }

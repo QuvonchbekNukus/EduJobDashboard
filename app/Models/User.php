@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -47,5 +48,15 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    public function seeker(): HasOne
+    {
+        return $this->hasOne(Seeker::class);
+    }
+
+    public function employer(): HasOne
+    {
+        return $this->hasOne(Employer::class);
     }
 }

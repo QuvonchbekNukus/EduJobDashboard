@@ -12,7 +12,7 @@ class RegionController extends Controller
 {
     public function index(): View
     {
-        $regions = Region::query()->orderBy('id')->paginate(12);
+        $regions = Region::query()->orderBy('id')->get();
 
         return view('regions.index', compact('regions'));
     }

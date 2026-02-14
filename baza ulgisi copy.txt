@@ -60,7 +60,7 @@ subjects{
     label,
     is_active
 }
-seekers_type{
+seekers_type{(teacher,admin)
     id,
     name,
     label,
@@ -75,6 +75,8 @@ seekers(ish qidiruvchi){
     work_format(online,offline,gibrid),
     about_me(text),
     cv_file_path(cv yuklansa o'sha fayl yo`li),
+    seekertype_id,
+    subject_id(nullable)
 }
 employer{
     id,
