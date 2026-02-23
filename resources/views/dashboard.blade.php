@@ -662,33 +662,7 @@
 <div class="edu-shell">
     <div class="container-fluid px-4 py-4 py-xl-5">
         <div class="row g-4">
-            <aside class="col-12 col-xl-3">
-                <div class="edu-panel edu-side-nav animate-enter">
-                    <span class="edu-side-badge"><i class="bi bi-lightning-charge"></i> Mission control</span>
-                    <h5 class="mt-3 mb-1 fw-bold">Boshqaruv bo'limlari</h5>
-                    <p class="edu-muted small mb-3">Kundalik ish oqimini bitta panelda ushlab turing.</p>
-
-                    <nav class="d-flex flex-column gap-1">
-                        <a class="edu-menu-item active" href="{{ route('dashboard') }}"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
-                        <a class="edu-menu-item" href="{{ route('seekers.index') }}"><i class="bi bi-people-fill"></i> Nomzodlar</a>
-                        <a class="edu-menu-item" href="{{ route('employers.index') }}"><i class="bi bi-buildings-fill"></i> Muassasalar</a>
-                        <a class="edu-menu-item" href="{{ route('roles.index') }}"><i class="bi bi-shield-lock-fill"></i> Rollar</a>
-                        <a class="edu-menu-item" href="{{ route('regions.index') }}"><i class="bi bi-geo-alt-fill"></i> Regionlar</a>
-                        <a class="edu-menu-item" href="{{ route('categories.index') }}"><i class="bi bi-tags-fill"></i> Kategoriyalar</a>
-                        <a class="edu-menu-item" href="{{ route('subjects.index') }}"><i class="bi bi-book-fill"></i> Fanlar</a>
-                        <a class="edu-menu-item" href="{{ route('seekers-types.index') }}"><i class="bi bi-diagram-3-fill"></i> Seeker types</a>
-                        <a class="edu-menu-item" href="{{ route('channels.index') }}"><i class="bi bi-broadcast-pin"></i> Kanallar</a>
-                    </nav>
-
-                    <div class="edu-side-promo">
-                        <h6 class="fw-bold mb-1">Yangi e'lon yaratish</h6>
-                        <p class="edu-muted small mb-3">2 daqiqa ichida vakansiyani chiqarib, botga yuboring.</p>
-                        <a href="#" class="edu-btn-brand w-100"><i class="bi bi-plus-circle"></i> E'lon qo'shish</a>
-                    </div>
-                </div>
-            </aside>
-
-            <div class="col-12 col-xl-9">
+            <div class="col-12">
                 <section class="edu-hero animate-enter delay-1">
                     <div class="row g-4 align-items-center">
                         <div class="col-12 col-lg-7">
@@ -699,8 +673,8 @@
                                 Qaysi yo'nalishda bosim oshganini bir qarashda ko'rasiz.
                             </p>
                             <div class="d-flex flex-wrap gap-2">
-                                <a href="#" class="edu-btn-brand"><i class="bi bi-rocket-takeoff"></i> Fast publish</a>
-                                <a href="{{ route('seekers.index') }}" class="edu-btn-ghost"><i class="bi bi-person-lines-fill"></i> Candidate flow</a>
+                                <a href="{{ route('vacancies.create') }}" class="edu-btn-brand"><i class="bi bi-rocket-takeoff"></i> Fast publish</a>
+                                <a href="{{ route('vacancies.index') }}" class="edu-btn-ghost"><i class="bi bi-briefcase-fill"></i> Vacancy flow</a>
                             </div>
                             <div class="d-flex flex-wrap gap-2 mt-3">
                                 <span class="edu-chip"><i class="bi bi-check2-circle"></i> 86% auto-screen</span>
@@ -730,29 +704,29 @@
                     <div class="col-12 col-md-6 col-xxl-3">
                         <article class="edu-stat animate-enter delay-1">
                             <small>Faol vakansiyalar</small>
-                            <h4>128</h4>
-                            <span class="edu-delta up"><i class="bi bi-arrow-up-right"></i> +12% oxirgi hafta</span>
+                            <h4>{{ $publishedVacancies }}</h4>
+                            <span class="edu-delta up"><i class="bi bi-check-circle"></i> E`londa turganlar</span>
                         </article>
                     </div>
                     <div class="col-12 col-md-6 col-xxl-3">
                         <article class="edu-stat animate-enter delay-2">
-                            <small>Yangi arizalar</small>
-                            <h4>46</h4>
-                            <span class="edu-delta up"><i class="bi bi-arrow-up-right"></i> +7% bugun</span>
+                            <small>Moderatsiya kutmoqda</small>
+                            <h4>{{ $pendingVacancies }}</h4>
+                            <span class="edu-delta warn"><i class="bi bi-hourglass-split"></i> Admin tekshiruvida</span>
                         </article>
                     </div>
                     <div class="col-12 col-md-6 col-xxl-3">
                         <article class="edu-stat animate-enter delay-3">
                             <small>Tasdiqlangan muassasa</small>
-                            <h4>32</h4>
-                            <span class="edu-delta up"><i class="bi bi-check-circle"></i> +4 yangi hamkor</span>
+                            <h4>{{ $verifiedEmployers }}</h4>
+                            <span class="edu-delta up"><i class="bi bi-buildings"></i> Employerlar</span>
                         </article>
                     </div>
                     <div class="col-12 col-md-6 col-xxl-3">
                         <article class="edu-stat animate-enter delay-4">
-                            <small>Bugungi ko'rishlar</small>
-                            <h4>2.4k</h4>
-                            <span class="edu-delta warn"><i class="bi bi-lightning-charge"></i> Peak 13:00 da</span>
+                            <small>Arxivlangan e`lonlar</small>
+                            <h4>{{ $archivedVacancies }}</h4>
+                            <span class="edu-delta warn"><i class="bi bi-archive"></i> Yopilgan vakansiyalar</span>
                         </article>
                     </div>
                 </div>
@@ -762,7 +736,7 @@
                         <section class="edu-panel edu-section animate-enter delay-2">
                             <div class="edu-section-title">
                                 <h5 class="mb-0 fw-bold">Hiring pipeline</h5>
-                                <a class="edu-link" href="#">To'liq analitika</a>
+                                <a class="edu-link" href="{{ route('vacancies.index') }}">To'liq analitika</a>
                             </div>
 
                             <div class="edu-pipeline-item">
@@ -859,6 +833,33 @@
                                 </div>
                                 <span class="edu-pill">12 ta</span>
                             </div>
+
+                            <div class="edu-section-title mt-4 mb-2">
+                                <h6 class="mb-0 fw-bold">So'nggi vakansiyalar</h6>
+                                <a class="edu-link" href="{{ route('vacancies.index') }}">Barchasi</a>
+                            </div>
+
+                            @forelse ($recentVacancies as $recentVacancy)
+                                <div class="edu-meeting">
+                                    <div>
+                                        <strong>{{ $recentVacancy->title }}</strong>
+                                        <small class="edu-muted">
+                                            {{ $recentVacancy->employer?->org_name ?? ('Employer #' . $recentVacancy->employer_id) }}
+                                            ·
+                                            {{ $recentVacancy->region?->name ?? '-' }}
+                                        </small>
+                                    </div>
+                                    <span class="edu-pill">{{ ucfirst($recentVacancy->status ?? 'pending') }}</span>
+                                </div>
+                            @empty
+                                <div class="edu-meeting">
+                                    <div>
+                                        <strong>Hozircha vakansiya yo`q</strong>
+                                        <small class="edu-muted">Yangi e`lon yaratib oqimni boshlang.</small>
+                                    </div>
+                                    <a href="{{ route('vacancies.create') }}" class="edu-pill text-decoration-none">Yaratish</a>
+                                </div>
+                            @endforelse
                         </section>
                     </div>
 
@@ -866,24 +867,27 @@
                         <section class="edu-panel edu-section animate-enter delay-4">
                             <div class="edu-section-title">
                                 <h5 class="mb-0 fw-bold">Action center</h5>
-                                <a class="edu-link" href="#">Barchasini ochish</a>
+                                <a class="edu-link" href="{{ route('vacancies.index') }}">Barchasini ochish</a>
                             </div>
 
                             <div class="edu-actions">
                                 <article class="edu-action-item">
                                     <span class="edu-action-icon bg-sky"><i class="bi bi-megaphone"></i></span>
-                                    <h6>Promo kampaniya</h6>
-                                    <p class="edu-muted small mb-0">Matematika va IT mentor vakansiyalariga target push yuboring.</p>
+                                    <h6>Vakansiya joylash</h6>
+                                    <p class="edu-muted small mb-0">Yangi vakansiyani yarating va admin tekshiruviga yuboring.</p>
+                                    <a href="{{ route('vacancies.create') }}" class="edu-link mt-2 d-inline-flex">Yangi e`lon</a>
                                 </article>
                                 <article class="edu-action-item">
                                     <span class="edu-action-icon bg-emerald"><i class="bi bi-journal-check"></i></span>
-                                    <h6>CV audit</h6>
-                                    <p class="edu-muted small mb-0">Sifati past profilni tekshirib, avtomatik checklist yuborish.</p>
+                                    <h6>Pending tekshirish</h6>
+                                    <p class="edu-muted small mb-0">Moderatsiyada turgan vakansiyalarni ko`rib status yangilang.</p>
+                                    <a href="{{ route('vacancies.index', ['status' => 'pending']) }}" class="edu-link mt-2 d-inline-flex">Pending ro`yxat</a>
                                 </article>
                                 <article class="edu-action-item">
                                     <span class="edu-action-icon bg-coral"><i class="bi bi-download"></i></span>
-                                    <h6>Hisobot eksporti</h6>
-                                    <p class="edu-muted small mb-0">Haftalik KPI ko'rsatkichlarni PDF va bot kanaliga yuborish.</p>
+                                    <h6>Published nazorat</h6>
+                                    <p class="edu-muted small mb-0">Chiqib ketgan e`lonlarni ko`rib, kerak bo`lsa arxivga o`tkazing.</p>
+                                    <a href="{{ route('vacancies.index', ['status' => 'published']) }}" class="edu-link mt-2 d-inline-flex">Published ro`yxat</a>
                                 </article>
                             </div>
                         </section>

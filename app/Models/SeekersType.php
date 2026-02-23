@@ -26,4 +26,9 @@ class SeekersType extends Model
     {
         return $this->hasMany(Seeker::class, 'seekertype_id');
     }
+
+    public function vacancies(): HasMany
+    {
+        return $this->hasMany(Vacancy::class, 'seeker_type_id');
+    }
 }

@@ -78,7 +78,7 @@ seekers(ish qidiruvchi){
     seekertype_id,
     subject_id(nullable)
 }
-employer{
+employer(ish beruvchi){
     id,
     user_id(unique)
     org_name(O`quv markaz nomi),

@@ -29,4 +29,9 @@ class Region extends Model
     {
         return $this->hasMany(Employer::class);
     }
+
+    public function vacancies(): HasMany
+    {
+        return $this->hasMany(Vacancy::class);
+    }
 }

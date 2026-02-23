@@ -32,6 +32,15 @@
             border-radius: 999px;
             padding: 0.4rem 0.9rem;
             font-weight: 500;
+            text-decoration: none;
+            color: var(--ink);
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .nav-pill:hover {
+            color: var(--brand-dark);
+            border-color: rgba(14, 165, 233, 0.35);
         }
         .hero {
             padding: 5rem 0 3rem;
@@ -254,15 +263,20 @@
                     </div>
                 </div>
                 <div class="d-none d-md-flex align-items-center gap-3">
-                    <span class="nav-pill">Vakansiyalar</span>
-                    <span class="nav-pill">Hamkorlar</span>
-                    <span class="nav-pill">Telegram bot</span>
+                    <a href="{{ route('vacancies.index') }}" class="nav-pill">Vakansiyalar</a>
+                    <a href="{{ route('employers.index') }}" class="nav-pill">Muassasalar</a>
+                    <a href="#telegram-bot" class="nav-pill">Telegram bot</a>
                     <div class="d-flex gap-2 ms-2">
                         <a href="{{ route('login') }}" class="btn btn-outline-ink btn-sm px-3">Login</a>
                         <a href="{{ route('register') }}" class="btn btn-brand btn-sm px-3">Register</a>
                     </div>
                 </div>
             </nav>
+            <div class="d-flex d-md-none flex-wrap gap-2 pb-3">
+                <a href="{{ route('vacancies.index') }}" class="nav-pill">Vakansiyalar</a>
+                <a href="{{ route('employers.index') }}" class="nav-pill">Muassasalar</a>
+                <a href="{{ route('login') }}" class="nav-pill">Login</a>
+            </div>
 
             <section class="hero">
                 <div class="row align-items-center g-4">
@@ -277,8 +291,8 @@
                             xodimlarni tez toping.
                         </p>
                         <div class="d-flex flex-wrap gap-3 mt-4">
-                            <a href="#" class="btn btn-brand btn-lg px-4">Vakansiya joylash</a>
-                            <a href="#" class="btn btn-outline-ink btn-lg px-4">Vakansiya qidirish</a>
+                            <a href="{{ route('vacancies.create') }}" class="btn btn-brand btn-lg px-4">Vakansiya joylash</a>
+                            <a href="{{ route('vacancies.index') }}" class="btn btn-outline-ink btn-lg px-4">Vakansiya qidirish</a>
                         </div>
                         <div class="mt-4">
                             <span class="fw-semibold">Telegram orqali ham qulay:</span>
@@ -466,7 +480,7 @@
         </div>
     </section>
 
-    <section class="py-5 bg-light">
+    <section class="py-5 bg-light" id="telegram-bot">
         <div class="container">
             <div class="row g-4 align-items-center">
                 <div class="col-lg-6">

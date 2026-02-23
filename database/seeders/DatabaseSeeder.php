@@ -24,16 +24,22 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             SeekersTypeSeeder::class,
             SubjectSeeder::class,
+            FakeProfilesSeeder::class,
         ]);
 
         $role = Role::where('name', 'superadmin')->first();
 
-        $user = User::factory()->create([
-            'name' => 'Mr Coder',
-            'username' => 'mrcoder',
-            'telegram_id' => 971052304,
-            'role_id' => $role?->id ?? 1,
-        ]);
+        $user = User::updateOrCreate(
+            ['username' => 'mrcoder'],
+            [
+                'name' => 'Mr Coder',
+                'lastname' => 'Admin',
+                'telegram_id' => 971052304,
+                'phone' => '+998900000000',
+                'role_id' => $role?->id ?? 1,
+                'password' => 'password',
+            ]
+        );
 
         if ($role) {
             $user->assignRole($role);

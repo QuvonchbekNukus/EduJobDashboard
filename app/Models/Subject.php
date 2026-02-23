@@ -24,4 +24,9 @@ class Subject extends Model
     {
         return $this->hasMany(Seeker::class);
     }
+
+    public function vacancies(): HasMany
+    {
+        return $this->hasMany(Vacancy::class);
+    }
 }
