@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Employer;
 use App\Models\Region;
-use App\Models\SeekersType;
 use App\Models\Subject;
 use App\Models\Vacancy;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,7 +22,7 @@ class VacancyController extends Controller
         $status = (string) $request->query('status', 'all');
 
         $vacancies = Vacancy::query()
-            ->with(['region', 'category', 'employer', 'seekerType', 'subject'])
+            ->with(['region', 'category', 'employer', 'subject'])
             ->when($search !== '', function (Builder $query) use ($search) {
                 $query->where(function (Builder $innerQuery) use ($search) {
                     $innerQuery
@@ -99,7 +98,6 @@ class VacancyController extends Controller
             'regions' => Region::query()->orderBy('name')->get(),
             'categories' => Category::query()->orderBy('name')->get(),
             'employers' => Employer::query()->orderBy('org_name')->orderBy('id')->get(),
-            'seekersTypes' => SeekersType::query()->orderBy('label')->orderBy('name')->get(),
             'subjects' => Subject::query()->orderBy('label')->orderBy('name')->get(),
             'statusOptions' => Vacancy::STATUSES,
             'workFormatOptions' => Vacancy::WORK_FORMATS,
@@ -112,7 +110,6 @@ class VacancyController extends Controller
             'region_id' => ['required', 'integer', 'exists:regions,id'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'employer_id' => ['required', 'integer', 'exists:employers,id'],
-            'seeker_type_id' => ['required', 'integer', 'exists:seekers_types,id'],
             'subject_id' => ['required', 'integer', 'exists:subjects,id'],
             'title' => ['required', 'string', 'max:255'],
             'city' => ['nullable', 'string', 'max:255'],
@@ -154,7 +151,6 @@ class VacancyController extends Controller
             'region_id' => $validated['region_id'],
             'category_id' => $validated['category_id'],
             'employer_id' => $validated['employer_id'],
-            'seeker_type_id' => $validated['seeker_type_id'],
             'subject_id' => $validated['subject_id'],
             'title' => $validated['title'],
             'city' => $validated['city'] ?? null,

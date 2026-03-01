@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('region_id')->index();
             $table->unsignedBigInteger('category_id')->index();
             $table->unsignedBigInteger('employer_id')->index();
-            $table->unsignedBigInteger('seeker_type_id');
             $table->unsignedBigInteger('subject_id');
             $table->string('title');
             $table->string('city')->nullable();
@@ -36,7 +35,6 @@ return new class extends Migration
             $table->foreign('region_id')->references('id')->on('regions')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('category_id')->references('id')->on('categories')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('employer_id')->references('id')->on('employers')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreign('seeker_type_id')->references('id')->on('seekers_types')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('subject_id')->references('id')->on('subjects')->cascadeOnUpdate()->restrictOnDelete();
         });
     }

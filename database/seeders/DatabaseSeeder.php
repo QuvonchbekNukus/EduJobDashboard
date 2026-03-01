@@ -24,7 +24,9 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             SeekersTypeSeeder::class,
             SubjectSeeder::class,
+            PlanSeeder::class,
             FakeProfilesSeeder::class,
+            PaymentSeeder::class,
         ]);
 
         $role = Role::where('name', 'superadmin')->first();

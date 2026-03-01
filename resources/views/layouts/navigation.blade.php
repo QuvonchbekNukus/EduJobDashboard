@@ -28,6 +28,12 @@
                 <a class="app-sidebar-link {{ request()->routeIs('vacancies.*') ? 'active' : '' }}" href="{{ route('vacancies.index') }}">
                     <i class="bi bi-briefcase-fill"></i> Vakansiyalar
                 </a>
+                <a class="app-sidebar-link {{ request()->routeIs('plans.*') ? 'active' : '' }}" href="{{ route('plans.index') }}">
+                    <i class="bi bi-wallet2"></i> Tariflar
+                </a>
+                <a class="app-sidebar-link {{ request()->routeIs('payments.*') ? 'active' : '' }}" href="{{ route('payments.index') }}">
+                    <i class="bi bi-credit-card-2-front-fill"></i> To`lovlar
+                </a>
                 <a class="app-sidebar-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
                     <i class="bi bi-shield-lock-fill"></i> Rollar
                 </a>

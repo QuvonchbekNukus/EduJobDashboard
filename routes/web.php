@@ -4,6 +4,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployerController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\RoleController;
@@ -32,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('channels', ChannelController::class)->except(['show']);
     Route::resource('seekers', SeekerController::class)->except(['show']);
     Route::resource('employers', EmployerController::class)->except(['show']);
+    Route::resource('plans', PlanController::class)->except(['show']);
+    Route::resource('payments', PaymentController::class)->except(['show']);
     Route::resource('vacancies', VacancyController::class)->except(['show']);
     Route::resource('subjects', SubjectController::class)->except(['show']);
     Route::resource('seekers-types', SeekersTypeController::class)->except(['show']);

@@ -89,7 +89,7 @@
 </div>
 
 <div class="row g-3 mb-3">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <label for="employer_id" class="form-label">Employer</label>
         <select id="employer_id" name="employer_id" required class="form-select @error('employer_id') is-invalid @enderror">
             <option value="" disabled {{ old('employer_id', $vacancy?->employer_id) ? '' : 'selected' }}>Employer tanlang</option>
@@ -100,21 +100,6 @@
             @endforeach
         </select>
         @error('employer_id')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-
-    <div class="col-md-6">
-        <label for="seeker_type_id" class="form-label">Seeker type</label>
-        <select id="seeker_type_id" name="seeker_type_id" required class="form-select @error('seeker_type_id') is-invalid @enderror">
-            <option value="" disabled {{ old('seeker_type_id', $vacancy?->seeker_type_id) ? '' : 'selected' }}>Type tanlang</option>
-            @foreach ($seekersTypes as $seekersType)
-                <option value="{{ $seekersType->id }}" {{ (string) old('seeker_type_id', $vacancy?->seeker_type_id) === (string) $seekersType->id ? 'selected' : '' }}>
-                    {{ $seekersType->label ?? $seekersType->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('seeker_type_id')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>

@@ -72,7 +72,7 @@ class SeekerController extends Controller
         $users = User::query()
             ->where(function ($query) use ($seeker) {
                 $query->whereDoesntHave('seeker')
-                    ->orWhereKey($seeker->user_id);
+                    ->orWhere('id', $seeker->user_id);
             })
             ->orderBy('name')
             ->orderBy('username')
@@ -81,14 +81,14 @@ class SeekerController extends Controller
         $seekersTypes = SeekersType::query()
             ->where(function ($query) use ($seeker) {
                 $query->where('is_active', true)
-                    ->orWhereKey($seeker->seekertype_id);
+                    ->orWhere('id', $seeker->seekertype_id);
             })
             ->orderBy('id')
             ->get();
         $subjects = Subject::query()
             ->where(function ($query) use ($seeker) {
                 $query->where('is_active', true)
-                    ->orWhereKey($seeker->subject_id);
+                    ->orWhere('id', $seeker->subject_id);
             })
             ->orderBy('id')
             ->get();

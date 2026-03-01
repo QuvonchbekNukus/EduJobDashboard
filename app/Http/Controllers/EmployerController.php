@@ -70,7 +70,7 @@ class EmployerController extends Controller
         $users = User::query()
             ->where(function ($query) use ($employer) {
                 $query->whereDoesntHave('employer')
-                    ->orWhereKey($employer->user_id);
+                    ->orWhere('id', $employer->user_id);
             })
             ->orderBy('name')
             ->orderBy('username')
