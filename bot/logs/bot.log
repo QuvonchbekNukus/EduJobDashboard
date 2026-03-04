@@ -1,0 +1,6 @@
+2026-03-04 19:23:13 | ERROR | asyncio | Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000024EDD7BA900>
+2026-03-04 19:24:00 | ERROR | asyncio | Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000026AA15BAA50>
+2026-03-04 19:26:52 | ERROR | asyncio | Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000228D7ACE7B0>

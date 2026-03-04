@@ -1,0 +1,105 @@
+Traceback (most recent call last):
+  File "C:\xampp\htdocs\EduJobDashboard\bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 87, in check_response
+    json_data = self.json_loads(content)
+  File "C:\Users\q_yoldoshov\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\q_yoldoshov\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\q_yoldoshov\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\xampp\htdocs\EduJobDashboard\bot\app.py", line 61, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\q_yoldoshov\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\q_yoldoshov\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\q_yoldoshov\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\xampp\htdocs\EduJobDashboard\bot\app.py", line 51, in main
+    await bot.delete_webhook(drop_pending_updates=True)
+  File "C:\xampp\htdocs\EduJobDashboard\bot\.venv\Lib\site-packages\aiogram\client\bot.py", line 1250, in delete_webhook
+    return await self(call, request_timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\xampp\htdocs\EduJobDashboard\bot\.venv\Lib\site-packages\aiogram\client\bot.py", line 488, in __call__
+    return await self.session(self, method, timeout=request_timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\xampp\htdocs\EduJobDashboard\bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 259, in __call__
+    return cast(TelegramType, await middleware(bot, method))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\xampp\htdocs\EduJobDashboard\bot\.venv\Lib\site-packages\aiogram\client\session\aiohttp.py", line 177, in make_request
+    response = self.check_response(
+        bot=bot,
+    ...<2 lines>...
+        content=raw_result,
+    )
+  File "C:\xampp\htdocs\EduJobDashboard\bot\.venv\Lib\site-packages\aiogram\client\session\base.py", line 93, in check_response
+    raise ClientDecodeError(msg, e, content) from e
+aiogram.exceptions.ClientDecodeError: Failed to decode object
+Caused from error: json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+Content: <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <title> Page Blocked </title>
+                <style>
+
+                    body {
+                        background-color: transparent;
+                        margin: 0px;
+                    }
+
+                div#wrapper {
+                        display: table;
+                        text-align: center;
+                        color: #647687;
+                        height: 0px;
+                        position: absolute;
+                        overflow: visible;
+                        display: block;
+                        width: 100%;
+                        left: 0px;
+                        top: 50%;
+                    }
+
+                div#center {
+                        background-color: transparent;
+                        overflow: hidden;
+                        position: absolute;
+                        left: 50%;
+                        margin-left: -200px;
+                        width: 400px;
+                        height: 300px;
+                        top: -150px;
+                    }
+
+                div#center > child {
+                            display: table-cell;
+                            text-align: center;
+                            vertical-align: middle;
+                        }
+                </style>
+            </head>
+            <body id = 'home'>
+                <div id='wrapper'>
+                    <div id = 'center'>
+                        <h1> Content Blocked</h1>
+                        <p>A?>;L7>20=85 40==>3> 251-@5AC@A0 70?@5I5=>. 1@0B8B5AL : 04<8=8AB@0B>@C.</p>
+                        
+                    </div>
+                </div>
+  
+            </body>
+            </html>
+2026-03-04 19:26:52 | ERROR | asyncio | Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000228D7ACE7B0>
