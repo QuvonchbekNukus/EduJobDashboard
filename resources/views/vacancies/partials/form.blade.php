@@ -2,6 +2,9 @@
     $vacancy = $vacancy ?? null;
     $submitLabel = $submitLabel ?? 'Saqlash';
     $cancelUrl = $cancelUrl ?? route('vacancies.index');
+    $lockedEmployerId = $lockedEmployerId ?? null;
+    $canManageStatus = $canManageStatus ?? true;
+    $lockedEmployer = $lockedEmployerId ? $employers->firstWhere('id', $lockedEmployerId) : null;
 @endphp
 
 <div class="row g-3 mb-3">
@@ -90,18 +93,34 @@
 
 <div class="row g-3 mb-3">
     <div class="col-md-12">
-        <label for="employer_id" class="form-label">Employer</label>
-        <select id="employer_id" name="employer_id" required class="form-select @error('employer_id') is-invalid @enderror">
-            <option value="" disabled {{ old('employer_id', $vacancy?->employer_id) ? '' : 'selected' }}>Employer tanlang</option>
-            @foreach ($employers as $employer)
-                <option value="{{ $employer->id }}" {{ (string) old('employer_id', $vacancy?->employer_id) === (string) $employer->id ? 'selected' : '' }}>
-                    {{ $employer->org_name ?? ('Employer #' . $employer->id) }}
-                </option>
-            @endforeach
-        </select>
-        @error('employer_id')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+        @if ($lockedEmployerId)
+            <label for="employer_locked_name" class="form-label">Employer</label>
+            <input
+                id="employer_locked_name"
+                type="text"
+                readonly
+                value="{{ $lockedEmployer?->org_name ?? ('Employer #' . $lockedEmployerId) }}"
+                class="form-control"
+            >
+            <input
+                type="hidden"
+                name="employer_id"
+                value="{{ old('employer_id', $vacancy?->employer_id ?? $lockedEmployerId) }}"
+            >
+        @else
+            <label for="employer_id" class="form-label">Employer</label>
+            <select id="employer_id" name="employer_id" required class="form-select @error('employer_id') is-invalid @enderror">
+                <option value="" disabled {{ old('employer_id', $vacancy?->employer_id) ? '' : 'selected' }}>Employer tanlang</option>
+                @foreach ($employers as $employer)
+                    <option value="{{ $employer->id }}" {{ (string) old('employer_id', $vacancy?->employer_id) === (string) $employer->id ? 'selected' : '' }}>
+                        {{ $employer->org_name ?? ('Employer #' . $employer->id) }}
+                    </option>
+                @endforeach
+            </select>
+            @error('employer_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        @endif
     </div>
 </div>
 
@@ -182,34 +201,40 @@
 </div>
 
 <div class="row g-3 mb-3">
-    <div class="col-md-4">
-        <label for="status" class="form-label">Status</label>
-        <select id="status" name="status" class="form-select @error('status') is-invalid @enderror">
-            <option value="" {{ old('status', $vacancy?->status) ? '' : 'selected' }}>Tanlang</option>
-            @foreach ($statusOptions as $statusOption)
-                <option value="{{ $statusOption }}" {{ old('status', $vacancy?->status) === $statusOption ? 'selected' : '' }}>
-                    {{ ucfirst($statusOption) }}
-                </option>
-            @endforeach
-        </select>
-        @error('status')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="col-md-4">
-        <label for="published_at" class="form-label">Nashr sanasi</label>
-        <input
-            id="published_at"
-            name="published_at"
-            type="date"
-            value="{{ old('published_at', $vacancy?->published_at?->format('Y-m-d')) }}"
-            class="form-control @error('published_at') is-invalid @enderror"
-        >
-        @error('published_at')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="col-md-4">
+    @if ($canManageStatus)
+        <div class="col-md-4">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" name="status" class="form-select @error('status') is-invalid @enderror">
+                <option value="" {{ old('status', $vacancy?->status) ? '' : 'selected' }}>Tanlang</option>
+                @foreach ($statusOptions as $statusOption)
+                    <option value="{{ $statusOption }}" {{ old('status', $vacancy?->status) === $statusOption ? 'selected' : '' }}>
+                        {{ ucfirst($statusOption) }}
+                    </option>
+                @endforeach
+            </select>
+            @error('status')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col-md-4">
+            <label for="published_at" class="form-label">Nashr sanasi</label>
+            <input
+                id="published_at"
+                name="published_at"
+                type="date"
+                value="{{ old('published_at', $vacancy?->published_at?->format('Y-m-d')) }}"
+                class="form-control @error('published_at') is-invalid @enderror"
+            >
+            @error('published_at')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="col-md-4">
+    @else
+        <input type="hidden" name="status" value="{{ old('status', $vacancy?->status ?? 'pending') }}">
+        <input type="hidden" name="published_at" value="{{ old('published_at', $vacancy?->published_at?->format('Y-m-d')) }}">
+        <div class="col-md-12">
+    @endif
         <label for="contact_phone" class="form-label">Telefon</label>
         <input
             id="contact_phone"

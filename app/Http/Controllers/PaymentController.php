@@ -21,8 +21,13 @@ class PaymentController extends Controller
     {
         $statusFilter = (string) $request->query('status', 'all');
         $providerFilter = (string) $request->query('provider', 'all');
+        $user = $request->user();
+        $canManagePayments = (bool) $user?->can('payments.manage.view');
+        $canViewOwnPayments = (bool) $user?->can('employer.payments.history.view_own');
 
-        $payments = Payment::query()
+        abort_if(! $canManagePayments && ! $canViewOwnPayments, 403);
+
+        $paymentsQuery = Payment::query()
             ->with(['user', 'plan', 'vacancy'])
             ->when($statusFilter !== 'all', function (Builder $query) use ($statusFilter) {
                 $query->where('status', $statusFilter);
@@ -30,7 +35,13 @@ class PaymentController extends Controller
             ->when($providerFilter !== 'all', function (Builder $query) use ($providerFilter) {
                 $query->where('provider', $providerFilter);
             })
-            ->latest('id')
+            ->latest('id');
+
+        if (! $canManagePayments && $user) {
+            $paymentsQuery->where('user_id', $user->id);
+        }
+
+        $payments = $paymentsQuery
             ->paginate(12)
             ->withQueryString();
 
@@ -40,6 +51,7 @@ class PaymentController extends Controller
             'providerFilter' => $providerFilter,
             'statusOptions' => PaymentStatus::values(),
             'providerOptions' => PaymentProvider::values(),
+            'canManagePayments' => $canManagePayments,
         ]);
     }
 

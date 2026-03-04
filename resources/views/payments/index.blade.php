@@ -16,7 +16,9 @@
                     <p class="text-muted mb-0">Provider, status va plan bo`yicha to`lovlarni boshqaring.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('payments.create') }}" class="btn btn-brand">Yangi to`lov</a>
+                    @if ($canManagePayments)
+                        <a href="{{ route('payments.create') }}" class="btn btn-brand">Yangi to`lov</a>
+                    @endif
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-ink">Dashboard</a>
                 </div>
             </div>
@@ -76,7 +78,9 @@
                                 <th>Status</th>
                                 <th>Invoice</th>
                                 <th>Paid at</th>
-                                <th class="text-end">Amallar</th>
+                                @if ($canManagePayments)
+                                    <th class="text-end">Amallar</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -120,18 +124,20 @@
                                     <td class="text-muted">
                                         {{ $payment->paid_at ? $payment->paid_at->format('Y-m-d H:i') : '-' }}
                                     </td>
-                                    <td class="text-end">
-                                        <a href="{{ route('payments.edit', $payment) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
-                                        <form action="{{ route('payments.destroy', $payment) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('To`lov o`chirilsinmi?')">O`chirish</button>
-                                        </form>
-                                    </td>
+                                    @if ($canManagePayments)
+                                        <td class="text-end">
+                                            <a href="{{ route('payments.edit', $payment) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
+                                            <form action="{{ route('payments.destroy', $payment) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('To`lov o`chirilsinmi?')">O`chirish</button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10" class="text-center text-muted py-4">Hozircha to`lov yo`q.</td>
+                                    <td colspan="{{ $canManagePayments ? 10 : 9 }}" class="text-center text-muted py-4">Hozircha to`lov yo`q.</td>
                                 </tr>
                             @endforelse
                         </tbody>

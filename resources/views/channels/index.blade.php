@@ -16,7 +16,9 @@
                     <p class="text-muted mb-0">Kanal va guruhlar, hudud va faollik holatini boshqaring.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('channels.create') }}" class="btn btn-brand">Yangi kanal</a>
+                    @can('channels.create')
+                        <a href="{{ route('channels.create') }}" class="btn btn-brand">Yangi kanal</a>
+                    @endcan
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-ink">Dashboard</a>
                 </div>
             </div>
@@ -43,7 +45,9 @@
                                 <th>Region</th>
                                 <th>Tur</th>
                                 <th>Holat</th>
-                                <th class="text-end">Amallar</th>
+                                @canany(['channels.update', 'channels.delete'])
+                                    <th class="text-end">Amallar</th>
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody>
@@ -72,18 +76,24 @@
                                             <span class="modern-pill">Nofaol</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
-                                        <a href="{{ route('channels.edit', $channel) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
-                                        <form action="{{ route('channels.destroy', $channel) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Kanal o`chirilsinmi?')">O`chirish</button>
-                                        </form>
-                                    </td>
+                                    @canany(['channels.update', 'channels.delete'])
+                                        <td class="text-end">
+                                            @can('channels.update')
+                                                <a href="{{ route('channels.edit', $channel) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
+                                            @endcan
+                                            @can('channels.delete')
+                                                <form action="{{ route('channels.destroy', $channel) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Kanal o`chirilsinmi?')">O`chirish</button>
+                                                </form>
+                                            @endcan
+                                        </td>
+                                    @endcanany
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">Hozircha kanal yo`q.</td>
+                                    <td colspan="{{ auth()->user()?->canAny(['channels.update', 'channels.delete']) ? 8 : 7 }}" class="text-center text-muted py-4">Hozircha kanal yo`q.</td>
                                 </tr>
                             @endforelse
                         </tbody>

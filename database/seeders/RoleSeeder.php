@@ -12,17 +12,24 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $guardName = config('auth.defaults.guard', 'web');
+
         $roles = [
-            1 => ['name' => 'superadmin', 'description' => 'Full access', 'guard_name' => 'web'],
-            2 => ['name' => 'seeker', 'description' => 'Job seeker role', 'guard_name' => 'web'],
-            3 => ['name' => 'employer', 'description' => 'Employer role', 'guard_name' => 'web'],
-            4 => ['name' => 'user', 'description' => 'Default role', 'guard_name' => 'web'],
+            'superadmin' => 'Full access to all modules and analytics.',
+            'seeker' => 'Can manage own seeker profile and applications.',
+            'employer' => 'Can manage own employer profile, vacancies and applications.',
+            'user' => 'Basic user role before selecting seeker or employer.',
         ];
 
-        foreach ($roles as $id => $data) {
+        foreach ($roles as $name => $description) {
             Role::updateOrCreate(
-                ['id' => $id],
-                $data
+                [
+                    'name' => $name,
+                    'guard_name' => $guardName,
+                ],
+                [
+                    'description' => $description,
+                ]
             );
         }
     }

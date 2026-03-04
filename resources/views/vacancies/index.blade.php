@@ -50,7 +50,9 @@
                     <p class="text-muted mb-0">E`lonlarni yaratish, tekshirish va statuslarini yuriting.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('vacancies.create') }}" class="btn btn-brand">Yangi vakansiya</a>
+                    @if ($canCreateVacancy)
+                        <a href="{{ route('vacancies.create') }}" class="btn btn-brand">Yangi vakansiya</a>
+                    @endif
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-ink">Dashboard</a>
                 </div>
             </div>
@@ -103,16 +105,18 @@
                                 class="form-control"
                                 placeholder="Sarlavha, shahar yoki employer"
                             >
-                            <select name="status" class="form-select">
-                                <option value="all" {{ $status === 'all' ? 'selected' : '' }}>Barcha status</option>
-                                @foreach ($statusOptions as $statusOption)
-                                    <option value="{{ $statusOption }}" {{ $status === $statusOption ? 'selected' : '' }}>
-                                        {{ ucfirst($statusOption) }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            @if ($canFilterByStatus)
+                                <select name="status" class="form-select">
+                                    <option value="all" {{ $status === 'all' ? 'selected' : '' }}>Barcha status</option>
+                                    @foreach ($statusOptions as $statusOption)
+                                        <option value="{{ $statusOption }}" {{ $status === $statusOption ? 'selected' : '' }}>
+                                            {{ ucfirst($statusOption) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            @endif
                             <button type="submit" class="btn btn-outline-ink">Filtr</button>
-                            @if ($search !== '' || $status !== 'all')
+                            @if ($search !== '' || ($canFilterByStatus && $status !== 'all'))
                                 <a href="{{ route('vacancies.index') }}" class="btn btn-outline-ink">Tozalash</a>
                             @endif
                         </form>
@@ -134,7 +138,9 @@
                                 <th>Maosh</th>
                                 <th>Status</th>
                                 <th>Nashr</th>
-                                <th class="text-end">Amallar</th>
+                                @if ($canUpdateVacancy || $canDeleteVacancy)
+                                    <th class="text-end">Amallar</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -179,18 +185,24 @@
                                         </span>
                                     </td>
                                     <td class="text-muted">{{ $vacancy->published_at?->format('Y-m-d') ?? '-' }}</td>
-                                    <td class="text-end">
-                                        <a href="{{ route('vacancies.edit', $vacancy) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
-                                        <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Vakansiya o`chirilsinmi?')">O`chirish</button>
-                                        </form>
-                                    </td>
+                                    @if ($canUpdateVacancy || $canDeleteVacancy)
+                                        <td class="text-end">
+                                            @if ($canUpdateVacancy)
+                                                <a href="{{ route('vacancies.edit', $vacancy) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
+                                            @endif
+                                            @if ($canDeleteVacancy)
+                                                <form action="{{ route('vacancies.destroy', $vacancy) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Vakansiya o`chirilsinmi?')">O`chirish</button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10" class="text-center text-muted py-4">Hozircha vakansiya yo`q.</td>
+                                    <td colspan="{{ ($canUpdateVacancy || $canDeleteVacancy) ? 10 : 9 }}" class="text-center text-muted py-4">Hozircha vakansiya yo`q.</td>
                                 </tr>
                             @endforelse
                         </tbody>

@@ -16,7 +16,9 @@
                     <p class="text-muted mb-0">Ta`lim muassasalari profilini va holatini boshqaring.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('employers.create') }}" class="btn btn-brand">Yangi employer</a>
+                    @can('employers.create')
+                        <a href="{{ route('employers.create') }}" class="btn btn-brand">Yangi employer</a>
+                    @endcan
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-ink">Dashboard</a>
                 </div>
             </div>
@@ -45,7 +47,9 @@
                                 <th>Aloqa</th>
                                 <th>Tekshiruv</th>
                                 <th>Holat</th>
-                                <th class="text-end">Amallar</th>
+                                @canany(['employers.update', 'employers.delete'])
+                                    <th class="text-end">Amallar</th>
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody>
@@ -88,18 +92,24 @@
                                             <span class="modern-pill">Nofaol</span>
                                         @endif
                                     </td>
-                                    <td class="text-end">
-                                        <a href="{{ route('employers.edit', $employer) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
-                                        <form action="{{ route('employers.destroy', $employer) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Employer o`chirilsinmi?')">O`chirish</button>
-                                        </form>
-                                    </td>
+                                    @canany(['employers.update', 'employers.delete'])
+                                        <td class="text-end">
+                                            @can('employers.update')
+                                                <a href="{{ route('employers.edit', $employer) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
+                                            @endcan
+                                            @can('employers.delete')
+                                                <form action="{{ route('employers.destroy', $employer) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Employer o`chirilsinmi?')">O`chirish</button>
+                                                </form>
+                                            @endcan
+                                        </td>
+                                    @endcanany
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="10" class="text-center text-muted py-4">Hozircha employer yo`q.</td>
+                                    <td colspan="{{ auth()->user()?->canAny(['employers.update', 'employers.delete']) ? 10 : 9 }}" class="text-center text-muted py-4">Hozircha employer yo`q.</td>
                                 </tr>
                             @endforelse
                         </tbody>

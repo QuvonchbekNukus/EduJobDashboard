@@ -16,7 +16,9 @@
                     <p class="text-muted mb-0">Per post, VIP va subscription tariflarini boshqaring.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('plans.create') }}" class="btn btn-brand">Yangi tarif</a>
+                    @can('plans.manage.create')
+                        <a href="{{ route('plans.create') }}" class="btn btn-brand">Yangi tarif</a>
+                    @endcan
                     <a href="{{ route('dashboard') }}" class="btn btn-outline-ink">Dashboard</a>
                 </div>
             </div>
@@ -74,7 +76,9 @@
                                 <th>Duration</th>
                                 <th>Holat</th>
                                 <th>Payments</th>
-                                <th class="text-end">Amallar</th>
+                                @canany(['plans.manage.update', 'plans.manage.delete'])
+                                    <th class="text-end">Amallar</th>
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody>
@@ -93,18 +97,24 @@
                                         @endif
                                     </td>
                                     <td>{{ $plan->payments_count }}</td>
-                                    <td class="text-end">
-                                        <a href="{{ route('plans.edit', $plan) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
-                                        <form action="{{ route('plans.destroy', $plan) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tarif o`chirilsinmi?')">O`chirish</button>
-                                        </form>
-                                    </td>
+                                    @canany(['plans.manage.update', 'plans.manage.delete'])
+                                        <td class="text-end">
+                                            @can('plans.manage.update')
+                                                <a href="{{ route('plans.edit', $plan) }}" class="btn btn-sm btn-outline-ink">Tahrirlash</a>
+                                            @endcan
+                                            @can('plans.manage.delete')
+                                                <form action="{{ route('plans.destroy', $plan) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tarif o`chirilsinmi?')">O`chirish</button>
+                                                </form>
+                                            @endcan
+                                        </td>
+                                    @endcanany
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-muted py-4">Hozircha tarif yo`q.</td>
+                                    <td colspan="{{ auth()->user()?->canAny(['plans.manage.update', 'plans.manage.delete']) ? 8 : 7 }}" class="text-center text-muted py-4">Hozircha tarif yo`q.</td>
                                 </tr>
                             @endforelse
                         </tbody>

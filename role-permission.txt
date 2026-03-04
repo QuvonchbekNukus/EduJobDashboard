@@ -1,0 +1,30 @@
+hamma userlarga{
+    vakanciyalarni ko`rish,
+    employerlarni ochiq malumotlarini ko`rish,
+    tariflarni ko`rish,
+    kanallarni ko`rish,
+    umumiy vakanciyalar sonini ko`rish,
+    umumiy employer va seekerlar sonini ko`rish,
+}
+seker{
+    o`ziga tegishli barcha ma`lumotlarni ko`rish va tahrirlash,o`chirish
+    o`ziga tegishli o`zi topshirgan vakanciyalari ma`lumotlari("Arizalarim" bo`limida)
+    arizalariga javob kelganda Bildirishnoma kelsin
+}
+employerlar{
+    o`ziga tegishli barcha ma`lumotlarni ko`rish va tahrirlash,o`chirish
+    o`zlari yaratgan vakanciyalar va ularga kelgan arizalar,
+    o`zlariga tegishli vakanciyalarni tahrirlay olish imkoniyati,
+    tariflari va to`lovlar tarixi keyingi to`lov qachon bo`lishi va qancha to`lashi kerak ekani(agar oylik obunada bo`lsa),
+    to`lov vaqti kelganida tepada ogohlantirish oynasi ko`rinsin,
+    arizalar kelganida bildirishnoma kelsin,
+}
+superadmin{
+    hamma permissionlarga ruxsat,
+    oylik umumiy kirim statisikasi,
+    to`lamaganlarni alohida ajratib ko`rsatish,
+}
+user(seeker ham employerham emas){
+    o`ziga tegishli ma`lumotlarni ko`rish va tahrirlash,saylash seeker yoki employerlikni,
+    qay birini saylasa profil shunga qarab sozlanadi va o`zgarmaydigan bo`lsin
+}

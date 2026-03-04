@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -20,7 +21,10 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        $roles = Role::query()->orderBy('name')->get();
+        $roles = Role::query()
+            ->whereIn('name', ['user', 'seeker', 'employer'])
+            ->orderBy('name')
+            ->get();
 
         return view('auth.register', compact('roles'));
     }
@@ -38,7 +42,13 @@ class RegisteredUserController extends Controller
             'username' => ['nullable', 'string', 'max:255', 'unique:'.User::class],
             'telegram_id' => ['required', 'integer', 'unique:'.User::class],
             'phone' => ['nullable', 'string', 'max:255'],
-            'role_id' => ['required', 'integer', 'exists:roles,id'],
+            'role_id' => [
+                'required',
+                'integer',
+                Rule::exists('roles', 'id')->where(function ($query) {
+                    $query->whereIn('name', ['user', 'seeker', 'employer']);
+                }),
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

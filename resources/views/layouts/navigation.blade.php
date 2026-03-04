@@ -19,39 +19,66 @@
                 <a class="app-sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                     <i class="bi bi-grid-1x2-fill"></i> Dashboard
                 </a>
-                <a class="app-sidebar-link {{ request()->routeIs('seekers.*') ? 'active' : '' }}" href="{{ route('seekers.index') }}">
-                    <i class="bi bi-people-fill"></i> Nomzodlar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('employers.*') ? 'active' : '' }}" href="{{ route('employers.index') }}">
-                    <i class="bi bi-buildings-fill"></i> Muassasalar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('vacancies.*') ? 'active' : '' }}" href="{{ route('vacancies.index') }}">
-                    <i class="bi bi-briefcase-fill"></i> Vakansiyalar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('plans.*') ? 'active' : '' }}" href="{{ route('plans.index') }}">
-                    <i class="bi bi-wallet2"></i> Tariflar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('payments.*') ? 'active' : '' }}" href="{{ route('payments.index') }}">
-                    <i class="bi bi-credit-card-2-front-fill"></i> To`lovlar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
-                    <i class="bi bi-shield-lock-fill"></i> Rollar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('regions.*') ? 'active' : '' }}" href="{{ route('regions.index') }}">
-                    <i class="bi bi-geo-alt-fill"></i> Regionlar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
-                    <i class="bi bi-tags-fill"></i> Kategoriyalar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('subjects.*') ? 'active' : '' }}" href="{{ route('subjects.index') }}">
-                    <i class="bi bi-book-fill"></i> Fanlar
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('seekers-types.*') ? 'active' : '' }}" href="{{ route('seekers-types.index') }}">
-                    <i class="bi bi-diagram-3-fill"></i> Seeker types
-                </a>
-                <a class="app-sidebar-link {{ request()->routeIs('channels.*') ? 'active' : '' }}" href="{{ route('channels.index') }}">
-                    <i class="bi bi-broadcast-pin"></i> Kanallar
-                </a>
+                @can('users.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('users.*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                        <i class="bi bi-person-lines-fill"></i> Foydalanuvchilar
+                    </a>
+                @endcan
+                @can('seekers.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('seekers.*') ? 'active' : '' }}" href="{{ route('seekers.index') }}">
+                        <i class="bi bi-people-fill"></i> Nomzodlar
+                    </a>
+                @endcan
+                @canany(['employers.public.view', 'employers.view'])
+                    <a class="app-sidebar-link {{ request()->routeIs('employers.*') ? 'active' : '' }}" href="{{ route('employers.index') }}">
+                        <i class="bi bi-buildings-fill"></i> Muassasalar
+                    </a>
+                @endcanany
+                @canany(['vacancies.view', 'vacancies.manage.view', 'employer.vacancies.view_own'])
+                    <a class="app-sidebar-link {{ request()->routeIs('vacancies.*') ? 'active' : '' }}" href="{{ route('vacancies.index') }}">
+                        <i class="bi bi-briefcase-fill"></i> Vakansiyalar
+                    </a>
+                @endcanany
+                @can('plans.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('plans.*') ? 'active' : '' }}" href="{{ route('plans.index') }}">
+                        <i class="bi bi-wallet2"></i> Tariflar
+                    </a>
+                @endcan
+                @canany(['payments.manage.view', 'employer.payments.history.view_own'])
+                    <a class="app-sidebar-link {{ request()->routeIs('payments.*') ? 'active' : '' }}" href="{{ route('payments.index') }}">
+                        <i class="bi bi-credit-card-2-front-fill"></i> To`lovlar
+                    </a>
+                @endcanany
+                @can('roles.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
+                        <i class="bi bi-shield-lock-fill"></i> Rollar
+                    </a>
+                @endcan
+                @can('regions.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('regions.*') ? 'active' : '' }}" href="{{ route('regions.index') }}">
+                        <i class="bi bi-geo-alt-fill"></i> Regionlar
+                    </a>
+                @endcan
+                @can('categories.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
+                        <i class="bi bi-tags-fill"></i> Kategoriyalar
+                    </a>
+                @endcan
+                @can('subjects.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('subjects.*') ? 'active' : '' }}" href="{{ route('subjects.index') }}">
+                        <i class="bi bi-book-fill"></i> Fanlar
+                    </a>
+                @endcan
+                @can('seekers_types.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('seekers-types.*') ? 'active' : '' }}" href="{{ route('seekers-types.index') }}">
+                        <i class="bi bi-diagram-3-fill"></i> Seeker types
+                    </a>
+                @endcan
+                @can('channels.view')
+                    <a class="app-sidebar-link {{ request()->routeIs('channels.*') ? 'active' : '' }}" href="{{ route('channels.index') }}">
+                        <i class="bi bi-broadcast-pin"></i> Kanallar
+                    </a>
+                @endcan
             </nav>
 
             <div class="app-sidebar-footer d-grid gap-2 mt-auto">

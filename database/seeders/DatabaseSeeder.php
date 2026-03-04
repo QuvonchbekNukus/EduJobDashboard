@@ -29,7 +29,10 @@ class DatabaseSeeder extends Seeder
             PaymentSeeder::class,
         ]);
 
-        $role = Role::where('name', 'superadmin')->first();
+        $role = Role::query()
+            ->where('name', 'superadmin')
+            ->where('guard_name', config('auth.defaults.guard', 'web'))
+            ->first();
 
         $user = User::updateOrCreate(
             ['username' => 'mrcoder'],
@@ -44,7 +47,7 @@ class DatabaseSeeder extends Seeder
         );
 
         if ($role) {
-            $user->assignRole($role);
+            $user->syncRoles([$role]);
         }
     }
 }
