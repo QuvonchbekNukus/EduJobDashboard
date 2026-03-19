@@ -15,14 +15,15 @@ class BotTokenMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $expected = env('BOT_TOKEN');
+        $expected = env('BOT_API_TOKEN');
         if ($expected) {
-            $provided = $request->header('X-Bot-Token')
+            $provided = $request->header('X-BOT-TOKEN')
+                ?? $request->header('X-Bot-Token')
                 ?? $request->bearerToken()
                 ?? $request->query('token');
 
             if (!$provided || !hash_equals($expected, $provided)) {
-                return response()->json(['message' => 'Unauthorized.'], 401);
+                return response()->json(['message' => 'Unauthorized. Invalid BOT_API_TOKEN.'], 401);
             }
         }
 
